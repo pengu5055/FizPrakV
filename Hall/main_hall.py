@@ -45,3 +45,12 @@ plt.plot(T, yfit, color="#A96DA3", label="Linear fit")
 plt.errorbar(T, R_H, yerr=0,  markersize=3, color="#27b7f5", linestyle='None', marker="o", capsize=2, label=r"Data", alpha=1)
 plt.legend()
 plt.show()
+
+# Plot ln(n_p)(1/kT)
+k = 1.38 * 10**-23
+e_0 = 1.6 * 10**-19
+T_kelvin = T - 273
+xdata = 1/(k*T_kelvin)
+ydata = - (I * B)/(U * c * e_0)
+plt.plot(xdata, np.log(ydata))
+plt.show()
