@@ -9,6 +9,10 @@ def linear(x, k, n):
 
 T = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[0])
 I = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[5])
+I1 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[1])
+I2 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[2])
+U1 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[3])
+U2 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[4])
 U = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[6])
 R = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[7])
 
@@ -48,9 +52,31 @@ plt.show()
 
 # Plot ln(n_p)(1/kT)
 k = 1.38 * 10**-23
-e_0 = 1.6 * 10**-19
-T_kelvin = T - 273
-xdata = 1/(k*T_kelvin)
-ydata = - (I * B)/(U * c * e_0)
-plt.plot(xdata, np.log(ydata))
+c = 0.00095
+e_0 = -1.6 * 10**-19
+T_kelvin = T + 273
+xdata = 1/((k*T_kelvin)/np.abs(e_0))
+ydata = -(I * B)/(U * c * e_0)  # TODO: The fuck je ta minus tuki
+print(ydata)
+print(np.log(ydata))
+plt.plot(xdata, np.log(ydata), color="#A96DA3")
+plt.title(r"$\ln{n}$ v odvisnosti od $\frac{1}{k_B T}$")
+plt.xlabel(r"$(eV)^{-1}$")
+plt.ylabel(r"$\ln{n}$")
+plt.show()
+
+# Dual plot R_1(T)/R_2(T)
+fig, (ax1, ax2) = plt.subplots(1, 2)
+R1 = U1/I1
+R2 = U2/I2
+plt.suptitle("Ohmska upornost v odvisnosti od temperature")
+ax1.plot(T, R1, color="#1B998B")
+ax1.set_title(r"$R_1(T)$")
+ax1.set_xlabel(r"T [°C]")
+ax1.set_ylabel(r"R [$\Omega$]")
+ax2.plot(T, R2, color="#ED217C")
+ax2.set_title(r"$R_2(T)$")
+ax2.yaxis.tick_right()
+ax2.set_xlabel(r"T [°C]")
+ax2.set_ylabel(r"R [$\Omega$]")
 plt.show()
