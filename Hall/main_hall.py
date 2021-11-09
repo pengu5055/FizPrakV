@@ -45,21 +45,31 @@ c = 0.00095
 e_0 = -1.6 * 10**-19  # TODO: Al je tut kle minus? Nekaj je wonky
 T_kelvin = T + 273
 xdata = 1/((k*T_kelvin)/np.abs(e_0))
+print(xdata)
 ydata = -(I * B)/(U * c * e_0)  # TODO: The fuck je ta minus tuki
-ed_xdata = xdata[:4]
-ed_ydata = ydata[:4]
-eg_xdata = xdata[4:]
-eg_ydata = ydata[4:]
+ed_xdata = xdata[7:]
+print(ed_xdata)
+ed_ydata = ydata[7:]
+eg_xdata = xdata[:3]
+print(ed_xdata)
+eg_ydata = ydata[:3]
 edfitpar, edfitcov = curve_fit(linear, xdata=ed_xdata, ydata=np.log(ed_ydata))
 egfitpar, egfitcov = curve_fit(linear, xdata=eg_xdata, ydata=np.log(eg_ydata))
-edfit = linear(ed_xdata, edfitpar[0], edfitpar[1])
-egfit = linear(eg_xdata, egfitpar[0], egfitpar[1])
-plt.plot(xdata, np.log(ydata), color="#A96DA3")
-plt.plot(ed_xdata, edfit, label=r"Linear fit 1", ls="-")
-plt.plot(eg_xdata, egfit, label=r"$Linear fit 2$", ls="-")
+edfit = linear(xdata, edfitpar[0], edfitpar[1])
+egfit = linear(xdata, egfitpar[0], egfitpar[1])
+edfittext= "Linear fit 1: $y_1 = k_1x + n_1$\n$k_1$ = {} ± {}\n$n_1$ = {} ± {}".format(format(edfitpar[0], ".4e"), format(edfitcov[0][0]**0.5, ".4e"),
+                                                                                   format(edfitpar[1], ".4e"), format(edfitcov[1][1]**0.5, ".4e"))
+plt.text(0.525, 0.75, edfittext, ha="left", va="center", size=10, transform=ax.transAxes, bbox=dict(facecolor="#FFB9BE", alpha=0.5))
+egfittext= "Linear fit 2: $y_2 = k_2x + n_2$\n$k_2$ = {} ± {}\n$n_2$ = {} ± {}".format(format(egfitpar[0], ".4e"), format(egfitcov[0][0]**0.5, ".4e"),
+                                                                                   format(egfitpar[1], ".4e"), format(egfitcov[1][1]**0.5, ".4e"))
+plt.text(0.525, 0.55, egfittext, ha="left", va="center", size=10, transform=ax.transAxes, bbox=dict(facecolor="#9EE4E6", alpha=0.5))
+plt.plot(xdata, edfit, label=r"Linear fit 1", ls="--", alpha=0.8, color="#FF6D77")
+plt.plot(xdata, egfit, label=r"Linear fit 2", ls="--", alpha=0.8, color="#0FACDB")
 plt.title(r"$\ln{n}$ v odvisnosti od $\frac{1}{k_B T}$")
 plt.xlabel(r"$(eV)^{-1}$")
 plt.ylabel(r"$\ln{n}$")
+plt.plot(xdata, np.log(ydata), color="#DC8FFF")
+plt.ylim(47, 48.3)
 plt.legend()
 plt.show()
 
