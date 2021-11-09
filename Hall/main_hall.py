@@ -77,7 +77,7 @@ plt.show()
 fig, (ax1, ax2) = plt.subplots(1, 2)
 R1 = U1/I1
 R2 = U2/I2
-plt.suptitle("Ohmska upornost v odvisnosti od temperature")
+# plt.suptitle("Ohmska upornost v odvisnosti od temperature")
 ax1.plot(T, R1, color="#1B998B", label=r"$R_1 = \frac{U_1}{I_1}$")
 ax1.set_title(r"$R_1(T)$")
 ax1.set_xlabel(r"T [°C]")
