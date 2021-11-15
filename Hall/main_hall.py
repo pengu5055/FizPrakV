@@ -11,9 +11,10 @@ T = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[0])
 I = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[5])
 I1 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[1])
 I2 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[2])
-U1 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[3])
-U2 = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[4])
-U = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[6])
+U1 = -np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[3])
+U2 = -np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[4])
+# U = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[6])  # Broken ker je treba na roke dodat minus ker ga nisi prepisal
+U = 0.5*(U2-U1)
 R = np.genfromtxt("measurements_hall.txt", skip_header=1, usecols=[7])
 Ed = 0.01  # eV
 Eg = 0.66  # eV
@@ -29,7 +30,7 @@ fitpar, fitcov = curve_fit(linear, xdata=T, ydata=R_H)
 yfit = linear(T, fitpar[0], fitpar[1])
 fittext= "Linear fit: $y = kx + n$\nk = {} ± {}\nn = {} ± {}".format(format(fitpar[0], ".4e"), format(fitcov[0][0]**0.5, ".4e"),
                                                                      format(fitpar[1], ".4e"), format(fitcov[1][1]**0.5, ".4e"))
-plt.text(0.05, 0.12, fittext, ha="left", va="center", size=10, transform=ax.transAxes, bbox=dict(facecolor="#a9f5ee", alpha=0.5))
+plt.text(0.53, 0.12, fittext, ha="left", va="center", size=10, transform=ax.transAxes, bbox=dict(facecolor="#a9f5ee", alpha=0.5))
 plt.title("Hallova konstanta v odvisnosti od temperature")
 plt.xlabel("T [°C]")
 plt.ylabel(r"$R_H$ [$m^3$/As]")
@@ -42,11 +43,11 @@ plt.show()
 # Plot ln(n_p)(1/kT)
 k = 1.38 * 10**-23
 c = 0.00095
-e_0 = -1.6 * 10**-19  # TODO: Al je tut kle minus? Nekaj je wonky
+e_0 = 1.6 * 10**-19
 T_kelvin = T + 273
 xdata = 1/((k*T_kelvin)/np.abs(e_0))
 print(xdata)
-ydata = -(I * B)/(U * c * e_0)  # TODO: The fuck je ta minus tuki
+ydata = -(I * B)/(U * c * e_0)
 ed_xdata = xdata[7:]
 print(ed_xdata)
 ed_ydata = ydata[7:]
