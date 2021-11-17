@@ -9,6 +9,12 @@ def b_field(I):
     return (N*mu*I)/d
 
 
+def landau_g(x):
+    bm = 9.27 * 10**-24
+    h = 6.62 * 10 ** -34
+    return h/(bm * x)
+
+
 I1 = np.genfromtxt("ESR_80MHz.txt", skip_header=1, usecols=0)
 U1 = np.genfromtxt("ESR_80MHz.txt", skip_header=1, usecols=1)
 I2 = np.genfromtxt("ESR_85MHz.txt", skip_header=1, usecols=0)
@@ -48,4 +54,6 @@ plt.show()
 
 b1 = b_field(0.279)
 b2 = b_field(0.292)
+x = (b1 + b2)/2 / (80 * 10**6)
 print(b1, b2, np.abs(b1-b2), (b1 + b2)/2)
+print(landau_g(x))
