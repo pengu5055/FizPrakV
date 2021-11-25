@@ -6,3 +6,4 @@ consists of 11 separate weekly experiments.
 * Gamma-Gamma: Angle correlation of annihilation gamma rays
 * Hall: Hall effect
 * ESR: Electron spin resonance
+* HOL: Holography using He Ne laser
