@@ -39,3 +39,18 @@ plt.ylabel(r"$I_e$ [A]")
 
 plt.legend()
 plt.show()
+
+U = np.array([25, 30, 35])
+I = np.array([1.18e-9, 2.175e-9, 3.36e-9])
+rho = 1.17  # kgm^-3
+V = 0.00063  # m^3
+dX = I/(V*rho)
+dX_err = [0.01*element for element in dX]
+plt.plot(U, dX, c=c2, alpha=0.3)
+plt.errorbar(U, dX, yerr=dX_err,  markersize=2, color=c1,
+             linestyle='None', marker="o", capsize=2, alpha=1)
+
+plt.title("Hitrost ekspozicijske doze")
+plt.xlabel("U [kV]")
+plt.ylabel(r"$\frac{dX}{dt}$ [$A/kg$]")
+plt.show()

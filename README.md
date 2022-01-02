@@ -7,3 +7,4 @@ consists of 11 separate weekly experiments.
 * Hall: Hall effect
 * ESR: Electron spin resonance
 * HOL: Holography using He Ne laser
+* X: Experiments with X-rays
