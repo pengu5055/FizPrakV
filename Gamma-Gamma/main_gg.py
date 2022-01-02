@@ -178,3 +178,16 @@ plt.xlabel("t [ms]")
 plt.ylabel("R [1/ps]")
 plt.legend()
 plt.show()
+
+table = [c_0, c_5, c_10, c_15, c_20, c_25, c_30, c_35, c_40, c_45, c_50, c_60]
+avg_counts = [np.sum(i) for i in table]
+avg_counts_err = [np.sqrt(x) for x in avg_counts]
+angles = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60]
+plt.errorbar(angles, avg_counts, yerr=avg_counts_err,  markersize=2, color=c2,
+             linestyle='None', marker="o", capsize=2, alpha=1)
+plt.plot(angles, avg_counts, c=c1, alpha=0.3)
+
+plt.title(r"Odvisnost povprečenega N od $\phi$")
+plt.xlabel(r"$\phi$ [$\degree$]")
+plt.ylabel("N")
+plt.show()
