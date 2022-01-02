@@ -11,7 +11,7 @@ data_TDC = np.column_stack(np.genfromtxt("loc_24-4.txt", skip_header=12))
 time_bins_tdc = data_TDC[0] / 1.0e+09
 counts_tdc = data_TDC[1]
 plt.bar(time_bins_tdc, counts_tdc, color=c1, width=(time_bins_tdc[1]-time_bins_tdc[0]))
-print(np.std(data_TDC[1]))
+# print(np.std(data_TDC[1]))
 
 plt.title(r"Časovna ločljivost TDC")
 plt.xlabel("t [ms]")
@@ -25,11 +25,11 @@ t_mes = 103.6
 time_bins = data_decay[0] / 1.0e+09  # Convert from ps to ms
 pdf = data_decay[2]
 counts = data_decay[1]
-plt.bar(time_bins, pdf, color=c1, width=0.2)
+plt.bar(time_bins, counts/t_mes, color=c1, width=0.2)
 
 plt.title(r"Radioaktivni razpad $^{22}\mathrm{Na}$")
 plt.xlabel("t [ms]")
-plt.ylabel("R [1/ps]")
+plt.ylabel("R [1/s]")
 plt.show()
 
 # Radioactive decay linear plot
@@ -40,7 +40,7 @@ def masking(x, y):
 
 newc, newt = masking(counts, time_bins)
 
-newc /= 30
+newc /= t_mes
 dnewc = np.mean(newc) + np.zeros(len(newc))
 dlog = dnewc / newc
 
@@ -62,6 +62,8 @@ plt.title(r"Lineariziran graf radioaktivnega razpada $^{22}\mathrm{Na}$")
 plt.xlabel("t [ms]")
 plt.ylabel(r"$\ln \left( \frac{\Delta p}{\Delta t}\right)$")
 plt.show()
+
+print(np.exp(fitpar[1]), np.exp(fitpar[1]) * fitcov[1][1])
 print(np.mean(counts)/t_mes)
 
 # Coincidence peaks
@@ -70,11 +72,11 @@ t_corr = data_corr[0] / 1.0e+09
 c_corr = data_corr[1]
 pde_corr = data_corr[2]
 
-plt.bar(t_corr, pde_corr, color=c1, width=(t_corr[1] - t_corr[0]))
+plt.bar(t_corr, c_corr/30, color=c1, width=(t_corr[1] - t_corr[0]))
 
 plt.title(r"Koincidenčni vrh")
 plt.xlabel("t [ms]")
-plt.ylabel("R [1/ps]")
+plt.ylabel("R [1/s]")
 plt.show()
 
 data_corr = np.column_stack(np.genfromtxt("korelacija_rand1.txt", skip_header=12))
@@ -82,11 +84,11 @@ t_corr = data_corr[0] / 1.0e+09
 c_corr = data_corr[1]
 pde_corr = data_corr[2]
 
-plt.bar(t_corr, pde_corr, color=c1, width=(t_corr[1] - t_corr[0]))
+plt.bar(t_corr, c_corr/30, color=c1, width=(t_corr[1] - t_corr[0]))
 
 plt.title("Naključni koincidenčni \"vrh\"")
 plt.xlabel("t [ms]")
-plt.ylabel("R [1/ps]")
+plt.ylabel("R [1/s]")
 plt.show()
 
 # Angle correlation of coincidence peaks
@@ -160,22 +162,22 @@ t_60 = (t_60_1 + t_60_2)/2 / 1.0e+9
 c_60 = (c_60_1 + c_60_2)/2
 p_60 = (p_60_1 + p_60_2)/2
 
-plt.bar(t_0, p_0, width=(t_0[1]-t_0[0]), label=r"$\phi = 0\degree$", color=colors[0])
-plt.bar(t_5, p_5, width=(t_5[1]-t_5[0]), label=r"$\phi = 5\degree$", color=colors[1])
-plt.bar(t_10, p_10, width=(t_10[1]-t_10[0]), label=r"$\phi = 10\degree$", color=colors[2])
-plt.bar(t_15, p_15, width=(t_15[1]-t_15[0]), label=r"$\phi = 15\degree$", color=colors[3])
-plt.bar(t_20, p_20, width=(t_20[1]-t_20[0]), label=r"$\phi = 20\degree$", color=colors[4])
-plt.bar(t_25, p_25, width=(t_25[1]-t_25[0]), label=r"$\phi = 25\degree$", color=colors[5])
-plt.bar(t_30, p_30, width=(t_30[1]-t_30[0]), label=r"$\phi = 30\degree$", color=colors[6])
-plt.bar(t_35, p_35, width=(t_35[1]-t_35[0]), label=r"$\phi = 35\degree$", color=colors[7])
-plt.bar(t_40, p_40, width=(t_40[1]-t_40[0]), label=r"$\phi = 40\degree$", color=colors[8])
-plt.bar(t_45, p_45, width=(t_45[1]-t_45[0]), label=r"$\phi = 45\degree$", color=colors[9])
-plt.bar(t_50, p_50, width=(t_50[1]-t_50[0]), label=r"$\phi = 50\degree$", color=colors[10])
-plt.bar(t_60, p_60, width=(t_60[1]-t_60[0]), label=r"$\phi = 60\degree$", color=colors[11])
+plt.bar(t_0, c_0/30, width=(t_0[1]-t_0[0]), label=r"$\phi = 0\degree$", color=colors[0])
+plt.bar(t_5, c_5/30, width=(t_5[1]-t_5[0]), label=r"$\phi = 5\degree$", color=colors[1])
+plt.bar(t_10, c_10/30, width=(t_10[1]-t_10[0]), label=r"$\phi = 10\degree$", color=colors[2])
+plt.bar(t_15, c_15/30, width=(t_15[1]-t_15[0]), label=r"$\phi = 15\degree$", color=colors[3])
+plt.bar(t_20, c_20/30, width=(t_20[1]-t_20[0]), label=r"$\phi = 20\degree$", color=colors[4])
+plt.bar(t_25, c_25/30, width=(t_25[1]-t_25[0]), label=r"$\phi = 25\degree$", color=colors[5])
+plt.bar(t_30, c_30/30, width=(t_30[1]-t_30[0]), label=r"$\phi = 30\degree$", color=colors[6])
+plt.bar(t_35, c_35/30, width=(t_35[1]-t_35[0]), label=r"$\phi = 35\degree$", color=colors[7])
+plt.bar(t_40, c_40/30, width=(t_40[1]-t_40[0]), label=r"$\phi = 40\degree$", color=colors[8])
+plt.bar(t_45, c_45/30, width=(t_45[1]-t_45[0]), label=r"$\phi = 45\degree$", color=colors[9])
+plt.bar(t_50, c_50/30, width=(t_50[1]-t_50[0]), label=r"$\phi = 50\degree$", color=colors[10])
+plt.bar(t_60, c_60/30, width=(t_60[1]-t_60[0]), label=r"$\phi = 60\degree$", color=colors[11])
 
 plt.title("Kotna korelacija koincidenčnih vrhov")
 plt.xlabel("t [ms]")
-plt.ylabel("R [1/ps]")
+plt.ylabel("R [1/s]")
 plt.legend()
 plt.show()
 
@@ -183,7 +185,7 @@ table = [c_0, c_5, c_10, c_15, c_20, c_25, c_30, c_35, c_40, c_45, c_50, c_60]
 avg_counts = [np.sum(i) for i in table]
 avg_counts_err = [np.sqrt(x) for x in avg_counts]
 angles = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60]
-plt.errorbar(angles, avg_counts, yerr=avg_counts_err,  markersize=2, color=c2,
+plt.errorbar(angles, np.array(avg_counts), yerr=avg_counts_err,  markersize=2, color=c2,
              linestyle='None', marker="o", capsize=2, alpha=1)
 plt.plot(angles, avg_counts, c=c1, alpha=0.3)
 
