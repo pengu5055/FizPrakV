@@ -6,7 +6,8 @@ from scipy.optimize import curve_fit
 
 def square(x, a, b, c):
     """Second order polynomial"""
-    return a*x**2 + b*x + c
+    # return a*x**2 + b*x + c
+    return a + b*x + c*x**2
 
 
 def exp(x, C, k):
@@ -15,6 +16,10 @@ def exp(x, C, k):
 
 def linear(x, k, n):
     return k*x + n
+
+
+def gauss(x, A, mi, sigma):
+    return A * np.exp(-(x - mi)**2 / (2*sigma**2))
 
 
 c1, c2, c3 = cmr.take_cmap_colors("cmr.cosmic", 3, cmap_range=(0.3, 1), return_fmt="hex")
@@ -43,7 +48,7 @@ fittext= "Exponential fit: $y = Cexp(-kx)$\n$C$ = {} ± {}\n$k$ = {} ± {}".form
                                                                                  format(fitpar[1], ".4e"), format(fitcov[1][1]**0.5, ".4e"))
 plt.text(0.55, 0.9, fittext, ha="left", va="center", size=10, transform=ax.transAxes, bbox=dict(facecolor=c3, alpha=0.5))
 
-plt.plot(bg_scaled, bg_y, c=c1)
+plt.bar(bg_scaled, bg_y, color=c1, width=0.001)
 plt.plot(bg_scaled[lag:], bg_fit, c=c3)
 
 plt.title("Šum ozadja")
@@ -67,11 +72,15 @@ data2 = np.column_stack(np.genfromtxt("Na22_calib.txt", skip_header=20))
 x_uncalib = data2[0]
 energy = square(x_uncalib, a, b, c)
 y = data2[1]/data2_tmes - bg_y[:len(data2[1])]
-plt.bar(energy, y, color=c1, width=(energy[1] - energy[0]))
+plt.bar(energy, y, color=c1, width=0.001)
+plt.vlines(0.511, 0, 9.5, label=r"$E_1$ = 0.51 MeV", linestyles="dashed", color=c2)
+plt.vlines(1.277, 0, 3, label=r"$E_2$ = 1.277 MeV", linestyles="dashed", color=c2)
 
 plt.title(r"$^{22}\mathrm{Na}$ spekter brez ozadja")
 plt.xlabel("E [MeV]")
 plt.ylabel(r"R [$s^{-1}$]")
+
+plt.legend()
 plt.show()
 
 # Draw Co60 plot
@@ -80,11 +89,14 @@ data3 = np.column_stack(np.genfromtxt("co60.txt", skip_header=6))
 x_uncalib = data3[0]
 energy = square(x_uncalib, a, b, c)
 y = data3[1]/data3_tmes - bg_y[:len(data3[1])]
-plt.bar(energy, y, color=c1, width=(energy[1] - energy[0]))
+plt.bar(energy, y, color=c1, width=0.001)
+plt.vlines(1.185, 0, 5, label=r"$E_1$ = 1.18 MeV", linestyles="dashed", color=c2)
+plt.vlines(1.35, 0, 3, label=r"$E_2$ = 1.35 MeV", linestyles="dashed", color=c2)
 
 plt.title(r"$^{60}\mathrm{Co}$ spekter brez ozadja")
 plt.xlabel("E [MeV]")
 plt.ylabel(r"R [$s^{-1}$]")
+plt.legend()
 plt.show()
 
 # Draw Cs137 plot
@@ -93,9 +105,11 @@ data4 = np.column_stack(np.genfromtxt("cs137.txt", skip_header=6))
 x_uncalib = data4[0]
 energy = square(x_uncalib, a, b, c)
 y = data4[1]/data4_tmes - bg_y[:len(data4[1])]
-plt.bar(energy, y, color=c1, width=(energy[1] - energy[0]))
+plt.bar(energy, y, color=c1, width=0.001)
+plt.vlines(0.66, 0, 7.5, label=r"$E_1$ = 0.66 MeV", linestyles="dashed", color=c2)
 
 plt.title(r"$^{137}\mathrm{Cs}$ spekter brez ozadja")
 plt.xlabel("E [MeV]")
 plt.ylabel(r"R [$s^{-1}$]")
+plt.legend()
 plt.show()
