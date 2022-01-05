@@ -63,7 +63,6 @@ plt.xlabel("t [ms]")
 plt.ylabel(r"$\ln \left( \frac{\Delta p}{\Delta t}\right)$")
 plt.show()
 
-print(fitpar[0] * -1e3)
 print(np.exp(fitpar[1]), np.exp(fitpar[1]) * fitcov[1][1])
 print(np.sum(counts)/t_mes)
 
