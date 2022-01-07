@@ -7,5 +7,6 @@ consists of 10 separate weekly experiments.
 * Hall: Hall effect
 * ESR: Electron spin resonance
 * HOL: Holography using He Ne laser
+* ELO: Electro-optic effect in a ferroelectric liquid crystal
 * uVal: Experiments with microwaves
 * X: Experiments with X-rays
